@@ -1,24 +1,20 @@
-import uuid from "uuid";
-import * as dynamoDbLib from "./libs/dynamodb-lib";
-import { success, failure } from "./libs/response-lib";
+const uuid = require('./"uuid"')
+const dynamoDbLib = require('./libs/dynamodb-lib');
+const { success, failure } = require('./libs/response-lib');
 
-export async function main(event, context, callback) {
+exports.main = function main(event, context, callback) {
   const data = JSON.parse(event.body);
   const params = {
-    TableName: "notes",
-    Item: {
-      userId: event.requestContext.identity.cognitoIdentityId,
-      noteId: uuid.v1(),
-      content: data.content,
-      attachment: data.attachment,
-      createdAt: new Date().getTime()
-    }
+    TableName: 'customer',
+    Item: data
   };
 
-  try {
-    await dynamoDbLib.call("put", params);
-    callback(null, success(params.Item));
-  } catch (e) {
-    callback(null, failure({ status: false }));
-  }
-}
+  dynamoDbLib.call('put', params)
+    .then(res => {
+      callback(null, success(params.Item));
+    })
+    .catch(err => {
+      callback(null, failure({ status: false }));
+    })
+
+  };

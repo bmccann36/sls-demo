@@ -1,6 +1,6 @@
 {
-  "pathParameters": {
-    "id": "578eb840-f70f-11e6-9d1a-1359b3b22944"
+  "queryStringParameters": {
+    "ACCT_NUM": "000123823577"
   },
   "requestContext": {
     "identity": {

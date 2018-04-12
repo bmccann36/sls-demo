@@ -1,27 +1,23 @@
-import * as dynamoDbLib from "./libs/dynamodb-lib";
-import { success, failure } from "./libs/response-lib";
 
-export async function main(event, context, callback) {
+const dynamoDbLib = require('./libs/dynamodb-lib');
+const { success, failure } = require('./libs/response-lib');
+
+
+exports.main = function main(event, context, callback) {
+  const ACCT_NUM = event.queryStringParameters.ACCT_NUM
   const params = {
-    TableName: "notes",
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    // - 'userId': Identity Pool identity id of the authenticated user
-    // - 'noteId': path parameter
+    TableName: 'customer',
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
-      noteId: event.pathParameters.id
+      ACCT_NUM: ACCT_NUM,
     }
   };
 
-  try {
-    const result = await dynamoDbLib.call("get", params);
-    if (result.Item) {
-      // Return the retrieved item
-      callback(null, success(result.Item));
-    } else {
-      callback(null, failure({ status: false, error: "Item not found." }));
-    }
-  } catch (e) {
-    callback(null, failure({ status: false }));
-  }
+  dynamoDbLib('get', params)
+    .then(res => {
+      callback(null, success(res));
+    })
+    .catch(err => {
+      console.log(err)
+      callback(null, failure({ status: false }));
+    })
 }

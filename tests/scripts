@@ -1,0 +1,5 @@
+sls invoke --function get --path mocks/get-event.json
+
+sls invoke local --function get --path mocks/get-event.json
+
+serverless deploy function -f functionName

@@ -1,16 +1,7 @@
-service: notes-app-api
+service: sls-demo
 
-# Use the serverless-webpack plugin to transpile ES6
 plugins:
-  - serverless-webpack
   - serverless-offline
-
-# serverless-webpack configuration
-# Enable auto-packing of external modules
-custom:
-  webpack:
-    webpackConfig: ./webpack.config.js
-    includeModules: true
 
 provider:
   name: aws
@@ -33,65 +24,68 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /notes
-  # - method: POST request
-  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
-  #     domain api call
-  # - authorizer: authenticate using the AWS IAM role
+
   create:
     handler: create.main
     events:
       - http:
-          path: notes
+          path: users
           method: post
           cors: true
-          authorizer: aws_iam
+          integration: lambda
+          authorizer:
+            name: authorizer
+            arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
   get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
     handler: get.main
     events:
       - http:
-          path: notes/{id}
           method: get
-          cors: true
-          authorizer: aws_iam
+          path: whatever
+          request:
+            template:
+              application/json: '{ "foo" : "$input.params(''foo'')", "someData": "$input.params(''some_data'')" }'
+
 
   list:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
     handler: list.main
     events:
       - http:
-          path: notes
+          path: users
           method: get
           cors: true
-          authorizer: aws_iam
+          integration: lambda
+          authorizer:
+            name: authorizer
+            arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
-  update:
+  # update:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /notes/{id}
     # - method: PUT request
-    handler: update.main
-    events:
-      - http:
-          path: notes/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
+    # handler: update.main
+    # events:
+    #   - http:
+    #       path: user/{id}
+    #       method: put
+    #       cors: true
+    #       integration: lambda
+    #       authorizer:
+    #         name: authorizer
+    #         arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
-  delete:
+  # delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /notes/{id}
     # - method: DELETE request
-    handler: delete.main
-    events:
-      - http:
-          path: notes/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
+    # handler: delete.main
+    # events:
+    #   - http:
+    #       path: user/{id}
+    #       method: delete
+    #       cors: true
+    #       integration: lambda
+    #       authorizer:
+    #         name: authorizer
+    #         arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
