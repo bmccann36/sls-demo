@@ -1,0 +1,10 @@
+sls invoke --function customer --path mocks/get-event.json
+
+ sls invoke local --function customer --path mocks/get-event.json
+
+serverless deploy function -f functionName
+
+SHOW DEPLOY WITH VERBOSE
+
+
+sls invoke local --function invoice --path mocks/get-invoice.json

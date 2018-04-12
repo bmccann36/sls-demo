@@ -25,8 +25,7 @@ provider:
 
 functions:
 
-
-  getCustomer:
+  customer:
     handler: customer.main
     events:
       - http:
@@ -41,7 +40,7 @@ functions:
             name: authorizer
             arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
-  getInvoice:
+  invoice:
     handler: invoice.main
     events:
       - http:
@@ -49,7 +48,12 @@ functions:
           path: invoice
           request:
             template:
-              application/json: '{ "ACCT_NUM" : "$input.params(''ACCT_NUM'')" }'
+              application/json: >
+                {
+                  "ACCT_NUM" : "$input.params('some_data')",
+                  "REVENUE_MTH": "$input.params('some_data')"
+                  "REVENUE_YR": "$input.params('some_data')"
+                }
           cors: true
           # integration: lambda
           authorizer:

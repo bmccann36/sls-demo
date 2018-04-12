@@ -1,0 +1,41 @@
+{
+  "resource": "/invoice",
+  "path": "/invoice",
+  "httpMethod": "GET",
+  "headers": null,
+  "queryStringParameters": {
+    "REVENUE_MTH": "myMth",
+    "ACCT_NUM": "myAcct",
+    "REVENUE_YR": "someYrr"
+  },
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "path": "/invoice",
+    "accountId": "466357709346",
+    "resourceId": "m9gfkh",
+    "stage": "test-invoke-stage",
+    "requestId": "test-invoke-request",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "cognitoIdentityId": null,
+      "apiKey": "test-invoke-api-key",
+      "cognitoAuthenticationType": null,
+      "userArn": "arn:aws:iam::466357709346:root",
+      "apiKeyId": "test-invoke-api-key-id",
+      "userAgent": "aws-internal/3",
+      "accountId": "466357709346",
+      "caller": "466357709346",
+      "sourceIp": "test-invoke-source-ip",
+      "accessKey": "ASIAJDBFKYCQT4Q73SNQ",
+      "cognitoAuthenticationProvider": null,
+      "user": "466357709346"
+    },
+    "resourcePath": "/invoice",
+    "httpMethod": "GET",
+    "extendedRequestId": "test-invoke-extendedRequestId",
+    "apiId": "t0fnwihlvi"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}

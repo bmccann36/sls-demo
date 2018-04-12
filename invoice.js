@@ -4,21 +4,17 @@ const dynamoDbLib = require('./libs/dynamodb-lib');
 const { success, failure } = require('./libs/response-lib');
 
 
-exports.main = function main(event, context, callback) {
-  // const ACCT_NUM = event.queryStringParameters.ACCT_NUM
-  // const params = {
-  //   TableName: 'customer',
-  //   Key: {
-  //     ACCT_NUM: ACCT_NUM,
-  //   }
-  // };
+// query string req format
+// ACCT_NUM=myAcct&REVENUE_MTH=myMth&REVENUE_YR=someYrr
 
-  dynamoDbLib('get', params)
-    .then(res => {
-      callback(null, success(res));
-    })
-    .catch(err => {
-      console.log(err)
-      callback(null, failure({ status: false }));
-    })
+exports.main = function main(event, context, callback) {
+
+  const params = event.queryStringParameters
+
+  // callback(null, params)
+  callback(null, success(params))
+
 }
+
+
+
