@@ -25,41 +25,36 @@ provider:
 
 functions:
 
-  create:
-    handler: create.main
-    events:
-      - http:
-          path: users
-          method: post
-          cors: true
-          integration: lambda
-          authorizer:
-            name: authorizer
-            arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
-  get:
-    handler: get.main
+  getCustomer:
+    handler: customer.main
     events:
       - http:
           method: get
-          path: whatever
+          path: customer
           request:
             template:
-              application/json: '{ "foo" : "$input.params(''foo'')", "someData": "$input.params(''some_data'')" }'
-
-
-  list:
-    handler: list.main
-    events:
-      - http:
-          path: users
-          method: get
+              application/json: '{ "ACCT_NUM" : "$input.params(''ACCT_NUM'')" }'
           cors: true
-          integration: lambda
+          # integration: lambda
           authorizer:
             name: authorizer
             arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
+  getInvoice:
+    handler: invoice.main
+    events:
+      - http:
+          method: get
+          path: invoice
+          request:
+            template:
+              application/json: '{ "ACCT_NUM" : "$input.params(''ACCT_NUM'')" }'
+          cors: true
+          # integration: lambda
+          authorizer:
+            name: authorizer
+            arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
   # update:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /notes/{id}
@@ -74,18 +69,15 @@ functions:
     #       authorizer:
     #         name: authorizer
     #         arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
+  # create:
+  #   handler: create.main
+  #   events:
+  #     - http:
+  #         path: users
+  #         method: post
+  #         cors: true
+  #         integration: lambda
+  #         authorizer:
+  #           name: authorizer
+  #           arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
 
-  # delete:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    # handler: delete.main
-    # events:
-    #   - http:
-    #       path: user/{id}
-    #       method: delete
-    #       cors: true
-    #       integration: lambda
-    #       authorizer:
-    #         name: authorizer
-    #         arn: arn:aws:cognito-idp:us-east-1:466357709346:userpool/us-east-1_wttsX9YPg
